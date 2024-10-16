@@ -9,6 +9,7 @@ p {
     font-family: 'Montserrat', sans-serif; 
     font-weight: 300; 
 }
+html{}
 /* General Styles */
 body {
     font-family: 'Montserrat', sans-serif; 
@@ -16,17 +17,20 @@ body {
     line-height: 1.5; 
     padding: 0;
     background-image: url("/public/images.jpg");
+
+   
+    
     color: #333;
   }
   
   /* Navbar */
   .navbar {
-    background: rgb(49,66,187);
-    background: linear-gradient(180deg, rgba(49,66,187,1) 0%, rgba(255,255,255,1) 1%, rgba(146,186,218,1) 4%, rgba(178,246,27,1) 95%, rgba(3,105,186,1) 100%); 
-    position: sticky; 
-    top: 0; 
-    z-index: 1030; 
-  }
+    position: sticky; /* Make it sticky */
+    top: 0; /* Stick to the top */
+    z-index: 1030; /* Ensure it's above other elements */
+    background: rgb(49, 66, 187);
+    background: linear-gradient(180deg, rgba(49, 66, 187, 1) 0%, rgba(255, 255, 255, 1) 1%, rgba(146, 186, 218, 1) 4%, rgba(178, 246, 27, 1) 95%, rgba(3, 105, 186, 1) 100%);
+}
   
   .navbar .navbar-brand {
     color: white;
