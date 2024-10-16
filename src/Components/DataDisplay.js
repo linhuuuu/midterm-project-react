@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 const DataDisplay = ({ items }) => {
-  const [category, setCateg] = useState("All");
-  const [lowFilter, setLowFilter] = useState(false);
-  const [filteredItems, setFilteredItems] = useState(items);
+  const [formData, setFormData] = useState({ search: '' });    //FORM HANDLING
+  const [category, setCateg] = useState("All");             //CATEGORY TOGGLE
+  const [lowFilter, setLowFilter] = useState(false);        //LOW STOCK FILTER
+  const [filteredItems, setFilteredItems] = useState(items);//FILTERED ARRAY
+  const [sortType, setSortType] = useState("Field");             //SORT FILTER
+  const [sortOrder, setSortOrder] = useState("Order");
 
   // Handle low stock toggling
   const handleLowStock = () => {
@@ -15,15 +18,58 @@ const DataDisplay = ({ items }) => {
     // Filtering logic here
     const newFilteredItems = items.filter((item) =>
       (category === "All" || item.category === category) &&
-      (!lowFilter || item.quantity < 5)
+      (!lowFilter || item.quantity < 5) &&
+      (!formData.search || item.itemID === formData.search.trim())
     );
-    setFilteredItems(newFilteredItems);
-  }, [category, lowFilter, items]);  
+
+    // Sorting
+    if (sortOrder==="Order" || sortType==="Type") {
+      setFilteredItems(newFilteredItems);
+    } else {
+      const sortedItems = newFilteredItems.sort((a, b) => {
+        if (sortType === "Quantity") { // by quantity
+          if (sortOrder === "Ascending") {
+            return a.quantity - b.quantity;
+          } else if (sortOrder === "Descending") {
+            return b.quantity - a.quantity;
+          }
+        }
+
+        if (sortType === "Price") { // by price
+          if (sortOrder === "Ascending") {
+            return a.price - b.price;
+          } else if (sortOrder === "Descending") {
+            return b.price - a.price;
+          }
+        }
+        return 0;
+      });
+
+      setFilteredItems(sortedItems);
+    }
+  }, [category, lowFilter, items, formData.search, sortOrder, sortType]);
+
+
+  //Handle input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div>
       <div>
         <h2>Data Display</h2>
+        <label htmlFor="search">Search:</label>
+        <input
+          type="text"
+          id="search"
+          name="search"
+          value={formData.search}
+          onChange={handleInputChange}
+          placeholder="Search"
+          className='form-control'
+        />
 
         {/* Category Selection */}
         <select
@@ -39,15 +85,30 @@ const DataDisplay = ({ items }) => {
           <option value="Entertainment">Entertainment</option>
         </select>
 
+        {/*ASCENDING OR  DESCENDING*/}
         <select
-          name="categ"
-          id="categ"
-          placeholder="Display by Category"
-          onChange={(e) => setCateg(e.target.value)}
-          value={category}
+          name="order"
+          id="order"
+          onChange={(e) => setSortOrder(e.target.value)}
+          value={sortOrder}
         >
+          <option value="Order"></option>
           <option value="Ascending">Ascending</option>
           <option value="Descending">Descending</option>
+        </select>
+
+        {/*PRICE OR QUANTITY*/}
+        <select
+          name="type"
+          id="type"
+          onChange={(e) => setSortType(e.target.value)}
+          value={sortType}
+          placeholder="Choose Order"
+        >
+          <option value="Field"></option>
+          <option value="Price">Price</option>
+          <option value="Quantity">Quantity</option>
+          
         </select>
 
         <button

@@ -36,7 +36,7 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
       setErrors({});
       const updatedItems = items.map((item) => {
         if (item.itemID === formData.itemID.trim()) {
-          setText("Item " + item.itemID + " (" +item.name+ ") " + selection + " has been changed.");
+          setText("Item " + item.itemID + " (" + item.name + ") " + selection + " has been changed.");
           // 
           return {
             ...item,
@@ -48,7 +48,7 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
       });
 
       handleUpdate(updatedItems);
-      
+
 
       // Optionally reset form data
       setFormData({
@@ -59,7 +59,7 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
     }
   };
 
- 
+
   //Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +68,7 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
 
   return (
     <div className='align-left'>
-      <h2>Add New Item</h2>
+      <h2>Update an Item</h2>
       <form onSubmit={handleSubmit}>
 
         <div>

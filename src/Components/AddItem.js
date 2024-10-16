@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddItem = ({ addNewItem, items }) => {  //item parameterized from app.js
+const AddItem = ({ handleAddItem, items }) => {  //item parameterized from app.js
 
   //item details arrays
   const [formData, setFormData] = useState({
@@ -37,7 +37,7 @@ const AddItem = ({ addNewItem, items }) => {  //item parameterized from app.js
       alert('Form submitted successfully!');
 
       //ADDIN
-      addNewItem({
+      handleAddItem({
         itemID: formData.itemID.trim(),
         name: formData.name.trim(),
         quantity: formData.itemID.trim(),
