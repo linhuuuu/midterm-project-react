@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 600;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 300; 
+}
+/* General Styles */
+body {
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 400; 
+    line-height: 1.5; 
+    padding: 0;
+    background-image: url("/public/images.jpg");
+    color: #333;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background: rgb(49,66,187);
+    background: linear-gradient(180deg, rgba(49,66,187,1) 0%, rgba(255,255,255,1) 1%, rgba(146,186,218,1) 4%, rgba(178,246,27,1) 95%, rgba(3,105,186,1) 100%); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1030; 
+  }
+  
+  .navbar .navbar-brand {
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-nav .nav-link {
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #dcdcdc;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Headings */
+  h1, h2 {
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(1, 1, 1, 0.8);
+    
+  }
+  
+  /* Form Styles */
+  form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  /* Button Styles */
+  .btn {
+    padding: 10px 20px;
+    
+    color: white;
+    border: none;
+    border-radius: 40px;
+    border-width: 1vh;
+    cursor: pointer;
+    background: rgb(49,66,187);
+    background: linear-gradient(180deg, rgba(49,66,187,1) 0%, rgba(255,255,255,1) 1%, rgba(146,186,218,1) 4%, rgba(178,246,27,1) 95%, rgba(3,105,186,1) 100%); 
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Error Messages */
+  p[style*="color: red"] {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  /* Item List Styles */
+  .list-group {
+    margin-top: 20px;
+  }
+  
+  .list-group-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+  
+  .list-group-item strong {
+    color: #007bff;
+  }
+  
