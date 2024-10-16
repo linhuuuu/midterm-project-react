@@ -3,26 +3,36 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <Link to="/">Inventory Management System </Link>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <Link to="/add">Add Item </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/delete">Delete Item </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/update">Update Item </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/display">Display Inventory </Link>
-                        </li>
-                    </ul>
+            <nav className="navbar navbar-expand-lg sticky-top">
+                <div className="container">
+                    <Link to="/" className='navbar-brand'>Inventory Management System</Link>
+                    <button 
+                        className="navbar-toggler" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#navbarNav" 
+                        aria-controls="navbarNav" 
+                        aria-expanded="false" 
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link to="/add" className='nav-link'>Add Item</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/delete" className='nav-link'>Delete Item</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/update" className='nav-link'>Update Item</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/display" className='nav-link'>Display Inventory</Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </div>

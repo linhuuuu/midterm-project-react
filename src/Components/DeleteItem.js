@@ -43,7 +43,7 @@ const DeleteItem = ({ handleDelete, items }) => {  //item parameterized from app
   };
 
   return (
-    <div className='align-left'>
+    <div className='container'>
       <h2>Remove Item</h2>
       <form onSubmit={handleSubmit}>
 

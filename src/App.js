@@ -9,7 +9,6 @@ import DeleteItem from './Components/DeleteItem';
 import UpdateItem from './Components/UpdateItem';
 import Navbar from './Components/Navbar';
 import Home from './Components/Home';
-
 //Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -37,11 +36,11 @@ function App() {
   };
 
   return (
+    
     <Router>
-      <Navbar/>
-      <div className="App">
-        <header className="App-header">
-          <h1>INVENTORY MANAGEMENT</h1>
+      <Navbar></Navbar>
+      <div>
+        <header>
           <Routes>
             <Route path='/' element={<Home/>}></Route>
             <Route path="/add" element={<AddItem handleAddItem={handleAddItem} items={items} />} />
@@ -50,6 +49,7 @@ function App() {
             <Route path="/update" element={<UpdateItem handleUpdate={handleUpdate} items={items} />} />
           </Routes>
         </header>
+
       </div>
     </Router>
   );

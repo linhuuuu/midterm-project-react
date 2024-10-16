@@ -79,7 +79,7 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
   };
 
   return (
-    <div className='align-left'>
+    <div className='container'>
       <h2>Update an Item</h2>
       <form onSubmit={handleSubmit}>
 
@@ -125,17 +125,29 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
         {text && <p>{text}</p>}
       </form>
 
-      <div className='container'>
-        <div className='row'>
-          <div className='col'>
-            <p>OLD {changes.category==="Price" ? "PRICE" : "QUANTITY"} : {changes.old}</p>
-          </div>
-          <div className='col'>
-            <p>NEW {changes.category==="Price" ? "PRICE" : "QUANTITY"}: {changes.new}</p>
-          </div>
-        </div>
+      <div className='container mt-4'>
+  <div className='row'>
+    <div className='col'>
+      <div className='p-3 border rounded shadow'>
+        {/* Old value */}
+        <p>
+          OLD {changes.category === "Price" ? "PRICE" : "QUANTITY"}: {changes.old}
+        </p>
       </div>
     </div>
+    
+    <div className='col'>
+      <div className='p-3 border rounded shadow'>
+        {/* New value */}
+        <p>
+          NEW {changes.category === "Price" ? "PRICE" : "QUANTITY"}: {changes.new}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
   );
 };
 

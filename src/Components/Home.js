@@ -2,29 +2,20 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
-        <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <Link to="/add">Add Item </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/delete">Delete Item </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/update">Update Item </Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link to="/display">Display Inventory </Link>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+        <div className='container home'>
+    <div className='row justify-content-center align-items-center text-center' style={{ height: '100vh' }}>
+        <div className='col-12'>
+            <h2 className='display-4'>INVENTORY MANAGEMENT SYSTEM</h2>
+            <p className='lead'>Let's get started.</p>
+        
+            <div className='btn-group'>
+                <Link to="/add" className='btn btn-primary'>Add Items</Link>
+                <Link to="/display" className='btn btn-secondary'>Go to Inventory</Link>
+            </div>
         </div>
+    </div>
+</div>
+
     );
 }
 
