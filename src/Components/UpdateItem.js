@@ -13,21 +13,28 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
   const [text, setText] = useState("");
   const [selection, setSelection] = useState("Price");
   const [errors, setErrors] = useState({});
+  const [changes, setChanges] = useState({ prev: '', new: '', category:''});
   // Handle form 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
 
-    //ID VALIDATION
+    // ID VALIDATION
     if (!formData.itemID.trim()) {
       newErrors.itemID = 'ID is required';
+      // ID Duplicate
+    } else if (!items.find(item => item.itemID === formData.itemID.trim())) {
+      newErrors.itemID = 'ID does not exist.';
     }
 
-    //NAME VALIDATION
+  // NUMERIC VALIDATIONS - Additionally checks if value is a whole number.
+    // QUANTITY VALIDATION 
     if (!formData.newVal.trim()) {
-      newErrors.value = 'Name is required';
+      newErrors.newVal = 'Quantity is required';
+    } else if (isNaN(formData.newVal) || Number(formData.newVal) <= 0) {
+      newErrors.newVal = 'Please enter an appropriate number';
     }
-
+  
     // If there are errors, set them and do not submit
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -37,6 +44,11 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
       const updatedItems = items.map((item) => {
         if (item.itemID === formData.itemID.trim()) {
           setText("Item " + item.itemID + " (" + item.name + ") " + selection + " has been changed.");
+          setChanges({
+            old: selection === "Price" ? item.price  :  item.quantity,
+            new: formData.newVal,
+            category: selection
+          });
           // 
           return {
             ...item,
@@ -107,12 +119,22 @@ const UpdateItem = ({ handleUpdate, items }) => {  //item parameterized from app
             placeholder="Enter Name"
             className='form-control'
           />
-          {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
+          {errors.newVal && <p style={{ color: 'red' }}>{errors.newVal}</p>}
         </div>
-
         <button className='btn btn-primary' type="submit">Submit</button>
+        {text && <p>{text}</p>}
       </form>
-      {text && <p>{text}</p>}
+
+      <div className='container'>
+        <div className='row'>
+          <div className='col'>
+            <p>OLD {changes.category==="Price" ? "PRICE" : "QUANTITY"} : {changes.old}</p>
+          </div>
+          <div className='col'>
+            <p>NEW {changes.category==="Price" ? "PRICE" : "QUANTITY"}: {changes.new}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

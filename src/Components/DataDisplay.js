@@ -2,102 +2,90 @@ import React, { useState, useEffect } from 'react';
 
 const DataDisplay = ({ items }) => {
   const [formData, setFormData] = useState({ search: '' });    //FORM HANDLING
-  const [category, setCateg] = useState("All");             //CATEGORY TOGGLE
-  const [lowFilter, setLowFilter] = useState(false);        //LOW STOCK FILTER
-  const [filteredItems, setFilteredItems] = useState(items);//FILTERED ARRAY
-  const [sortType, setSortType] = useState("Field");             //SORT FILTER
-  const [sortOrder, setSortOrder] = useState("Order");
+  const [filteredItems, setFilteredItems] = useState(items);  //FILTERED ARRAY
+  const [category, setCateg] = useState("");                  //CATEGORY TOGGLE
+  const [lowFilter, setLowFilter] = useState(false);          //LOW STOCK FILTER
+  const [sortType, setSortType] = useState("");               //SORT FILTER
+  const [sortOrder, setSortOrder] = useState("");             //ORDER FILTER
 
-  // Handle low stock toggling
-  const handleLowStock = () => {
-    setLowFilter(!lowFilter);
-  };
-
-  // useEffect to re-filter items whenever category or lowFilter changes
-  useEffect(() => {
-    // Filtering logic here
-    const newFilteredItems = items.filter((item) =>
-      (category === "All" || item.category === category) &&
-      (!lowFilter || item.quantity < 5) &&
-      (!formData.search || item.itemID === formData.search.trim())
-    );
-
-    // Sorting
-    if (sortOrder==="Order" || sortType==="Type") {
-      setFilteredItems(newFilteredItems);
-    } else {
-      const sortedItems = newFilteredItems.sort((a, b) => {
-        if (sortType === "Quantity") { // by quantity
-          if (sortOrder === "Ascending") {
-            return a.quantity - b.quantity;
-          } else if (sortOrder === "Descending") {
-            return b.quantity - a.quantity;
-          }
-        }
-
-        if (sortType === "Price") { // by price
-          if (sortOrder === "Ascending") {
-            return a.price - b.price;
-          } else if (sortOrder === "Descending") {
-            return b.price - a.price;
-          }
-        }
-        return 0;
-      });
-
-      setFilteredItems(sortedItems);
-    }
-  }, [category, lowFilter, items, formData.search, sortOrder, sortType]);
-
-
-  //Handle input change
+//Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+      setFormData((prev) => ({ ...prev, [name]: value }));
+};
+
+// LOW STOCK TOGGLE  
+  const handleLowStock = () => {
+    setLowFilter(!lowFilter);
+};
+
+//DISPLAY ITEMS - use effect to enable live results using dependencies
+  useEffect(() => {
+  //FILTER items based on two conditions: 1.IF toggle=OFF, all items true, 2.IF true, item is not filtered.
+    const newFilteredItems = items.filter((item) =>
+      (category === "" || item.category === category) &&  //FILTERS ITEM CATEGORY
+      (!lowFilter || item.quantity < 5) && //FILTERS QUANTITY
+      (!formData.search || item.itemID === formData.search.trim()) //FILTERS ID SEARCHING
+    );
+
+  // SORTING
+    if (!sortOrder || !sortType) {
+      setFilteredItems(newFilteredItems); //If SORT toggles=false, pass filtered array.
+    } else {  //Proceed to sorting. Takes two arguments, a and b. Determine their order by returning the sorting parameter.
+      const sortedItems = newFilteredItems.sort((a, b) => { 
+          if (sortOrder === "Ascending") {
+            return category==="Quantity" ? (a.quantity - b.quantity) : ( a.price - b.price)
+          } else if (sortOrder === "Descending") {
+            return category==="Quantity" ? (b.quantity - a.quantity) : ( b.price - a.price)
+          }else
+        return 0; //default
+      });
+      setFilteredItems(sortedItems); //pass new sorted array
+    }
+  }, [category, lowFilter, items, formData.search, sortOrder, sortType]); //dependencies
 
   return (
     <div>
       <div>
         <h2>Data Display</h2>
-        <label htmlFor="search">Search:</label>
+{/* Search BOX */}
+        <label htmlFor="search">Search:</label> 
         <input
           type="text"
           id="search"
           name="search"
           value={formData.search}
           onChange={handleInputChange}
-          placeholder="Search"
+          placeholder="Input ID to search."
           className='form-control'
         />
 
-        {/* Category Selection */}
+{/* Category Selection */}
         <select
           name="categ"
           id="categ"
-          placeholder="Display by Category"
           onChange={(e) => setCateg(e.target.value)}
           value={category}
         >
-          <option value="All">All</option>
+          <option value="">All</option>
           <option value="Clothing">Clothing</option>
           <option value="Electronics">Electronics</option>
           <option value="Entertainment">Entertainment</option>
         </select>
 
-        {/*ASCENDING OR  DESCENDING*/}
+{/*ASCENDING OR DESCENDING*/}
         <select
           name="order"
           id="order"
           onChange={(e) => setSortOrder(e.target.value)}
           value={sortOrder}
         >
-          <option value="Order"></option>
+          <option value="">Choose Field</option>
           <option value="Ascending">Ascending</option>
           <option value="Descending">Descending</option>
         </select>
 
-        {/*PRICE OR QUANTITY*/}
+{/*PRICE OR QUANTITY*/}
         <select
           name="type"
           id="type"
@@ -105,12 +93,12 @@ const DataDisplay = ({ items }) => {
           value={sortType}
           placeholder="Choose Order"
         >
-          <option value="Field"></option>
+          <option value="">Choose Order</option>
           <option value="Price">Price</option>
           <option value="Quantity">Quantity</option>
-          
         </select>
 
+{/* LOW STOCK TOGGLE */}
         <button
           name="low"
           id="low"
@@ -120,9 +108,11 @@ const DataDisplay = ({ items }) => {
         </button>
       </div>
 
+{/* DATA TABLE */}
       <div>
-        <table>
-          <thead>
+        <table className='table table-striped table-dark table-bordered table-hover table-responsive'>
+          <caption>Inventory</caption>
+          <thead className='thead-dark'>
             <tr>
               <th>Item ID</th>
               <th>Item Name</th>
@@ -132,7 +122,9 @@ const DataDisplay = ({ items }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredItems.map((item) => (
+            {/* IF THERE ARE  NO ITEMS */}
+            { filteredItems.length === 0 ? (<p>No items found!</p>):  
+            (filteredItems.map((item) => (
               <tr key={item.itemID}>
                 <td>{item.itemID}</td>
                 <td>{item.name}</td>
@@ -140,7 +132,8 @@ const DataDisplay = ({ items }) => {
                 <td>{item.price}</td>
                 <td>{item.category}</td>
               </tr>
-            ))}
+            )))
+          }
           </tbody>
         </table>
       </div>

@@ -1,47 +1,42 @@
 import React, { useState } from 'react';
 
 const DeleteItem = ({ handleDelete, items }) => {  //item parameterized from app.js
+  const [formData, setFormData] = useState({itemID: ''});  //Form Data
+  const [text, setText] = useState("");   //Text
+  const [errors, setErrors] = useState({});   //Errors
 
-  //item details arrays
-  const [formData, setFormData] = useState({
-    itemID: ''
-  });
-
-
-  const [errors, setErrors] = useState({});
-
-  // Handle form submission
+// FORM HANDLING
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
 
-    //ID VALIDATION
+//ID VALIDATION
     if (!formData.itemID.trim()) {
       newErrors.itemID = 'ID is required';
     }
-
+  //IF ID FOUND - pass to an array
     const found = items.find((item) => item.itemID === formData.itemID.trim());
 
+  //ID NOT FOUND
     if (!found) {
       newErrors.itemID = 'ID does not exist.';
     }
 
-    // If there are errors, set them and do not submit
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      // Reset errors if the form is submitted successfully
       setErrors({});
-      handleDelete(found);
-      alert('ID has been deleted');
+      handleDelete(found);  //Pass found value
+      setText("Item " + formData.itemID + " has been removed from the inventory.")
 
-      // Optionally reset form data
+    // RESET FORM DATA
       setFormData({
         itemID: ''
       });
     }
   };
-  //Handle input change
+
+//Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -65,7 +60,8 @@ const DeleteItem = ({ handleDelete, items }) => {  //item parameterized from app
           />
           {errors.itemID && <p style={{ color: 'red' }}>{errors.itemID}</p>}
         </div>
-        <button className='btn btn-primary' type="submit">Submit</button>
+        {!errors.itemID && <p>{text}</p>}
+         <button className='btn btn-primary' type="submit">Submit</button>
       </form>
     </div>
   );
